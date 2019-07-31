@@ -7,15 +7,15 @@
     "cors": "^2.8.5",
     "cowsay": "^1.4.0",
     "create-react-app": "^3.0.1",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mysql": "^2.17.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "client": "cd client && yarn start",
     "server": "node server.js",
-    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn start\"",
+    "dev": "concurrently --kill-others-on-fail \"yarn client\" \"yarn start\"",
     "heroku-postbuild": "cd client && npm install && npm run build"
-
   }
 }

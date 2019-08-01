@@ -32,9 +32,30 @@ class App extends React.Component {
   // function App() {
   // const { classes } = this.props;
 
-  state = { //데이터가 변경될 수 있을 때는 컴포넌트 내에서 변경될 수 있는 변수를 state로 선언함.
-    customers: "",
-    completed: 0
+  // state = { //데이터가 변경될 수 있을 때는 컴포넌트 내에서 변경될 수 있는 변수를 state로 선언함.
+  //   customers: "",
+  //   completed: 0
+  // }
+
+  //state대신 생성자 constructor를 이용해보도록 함.
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      customers: '',
+      completed: 0
+    }
+  }
+
+  stateRefresh = () => {
+    this.setState({
+      customers: '',
+      completed: 0
+    });
+    this.callApi()
+        .then(res => this.setState({customers: res}))//호출한 callApi의 Response를 customer에 셋팅해주는 것.
+        .catch(err => console.log(err)); //에러가 오면 에러 캐치
+
   }
 
   componentDidMount() { //api서버에 변경된 데이터를 받아오는 작업은 componentDidMount. 모든 컴포넌트가 준비가 되었을 때.
@@ -77,6 +98,7 @@ class App extends React.Component {
               {
                 this.state.customers ? this.state.customers.map(c => {
                   return (<Customer key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job}/>)
+                  //key값은 반드시 넣어주어야함.
                 }) :
                 <TableRow>
                   <TableCell colSpan="6" align="center">
@@ -88,7 +110,7 @@ class App extends React.Component {
             </TableBody>
           </Table>
         </Paper>
-        <CustomerAdd/>
+        <CustomerAdd stateRefresh={this.stateRefresh} />
     </div>
   );
   }

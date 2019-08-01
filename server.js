@@ -27,12 +27,13 @@ const connection = mysql.createConnection({
     database: conf.DATABASE_NAME
 });
 connection.connect();
-
+// for uplaod image
 const multer = require('multer');
 const storage = multer.diskStorage({
     destination: './upload'
 });
 const upload = multer({storage});
+// for uplaod image
 
 app.get('/api/customers', (req, res) => {
     connection.query(

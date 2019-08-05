@@ -19,9 +19,19 @@ handleFormSubmit = (e) => {//submit버튼을 눌렀을 때, 해당 input으로 �
   e.preventDefault() //파일이 제대로 올 수 있도록?
   this.addCustomer().then((response) => { //서버로부터 어떠한 값을 되받았을 때
     console.log(response.data);
+    this.props.stateRefresh(); // 서버로 부터 응답을 받은 후에 리프레시를 할 수 있게끔 하는 것.
+  });
+  this.setState({
+    file: null,
+    userName: '',
+    birthday: '',
+    gender: '',
+    job: '',
+    fileName: ''
+  });
+  // window.location.reload(); //reload windows
 
-  })
-}
+};
 
 handleFileChange = (e) => { //submit버튼을 눌렀을 때, 해당 input으로 부터 데이터가 들어오는 것.
   this.setState({
@@ -38,7 +48,7 @@ handleValueChange = (e) => {//submit버튼을 눌렀을 때, 해당 input으로 
 
 addCustomer = () => {
   const url = 'api/customers';
-  const formData = new FormData();
+  const formData = new FormData(); //이미지 데이터를 같이 전송하게 위해서 formData를 사용함.
   formData.append('image', this.state.file);
   formData.append('name', this.state.userName);
   formData.append('birthday', this.state.birthday);
@@ -47,12 +57,11 @@ addCustomer = () => {
 
   const config = { //환경설정
     headers: {
-      'content-type': 'multypart/form-data'
+      'content-type': 'multypart/formdata'
     }
-  }
-
+  };
   return post(url, formData, config); //post방식으로 해당 url에 어떠한 파일데이터를 가지고 설정을하여 접근함.
-
+    //여기서 return값으로 response가 전달되어 돌아오게 됨.
 }
 
 render() { //실제 이미지가 렌더링되어 표시되는 부분

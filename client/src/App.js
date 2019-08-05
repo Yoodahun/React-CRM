@@ -58,6 +58,7 @@ class App extends React.Component {
 
   }
 
+  //첫 화면 초기화 당시 처
   componentDidMount() { //api서버에 변경된 데이터를 받아오는 작업은 componentDidMount. 모든 컴포넌트가 준비가 되었을 때.
     this.timer = setInterval( this.progress, 20); //timer를 이용하여 20초마다 한 번씩 실행해줌.
     this.callApi()
@@ -92,18 +93,19 @@ class App extends React.Component {
                 <TableCell>生年月日</TableCell>
                 <TableCell>性別</TableCell>
                 <TableCell>職業</TableCell>
+                <TableCell>削除ボタン</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {
+              {  /* key값은 반드시 넣어주어야함.
+                App.js 에서 선언한 stateRefresh를 자식 컴포넌트에 전달하여 사용할 수 있도록 함.
+                */
                 this.state.customers ? this.state.customers.map(c => {
-                  return (<Customer key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job}/>)
-                  //key값은 반드시 넣어주어야함.
+                  return (<Customer stateRefresh={this.stateRefresh} key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job}/>)
                 }) :
                 <TableRow>
                   <TableCell colSpan="6" align="center">
                     <CircularProgress className={this.props.classes.progress} variant="determinate" value={this.state.completed}/>
-
                   </TableCell>
                 </TableRow>
               }

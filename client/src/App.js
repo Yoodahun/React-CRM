@@ -10,22 +10,86 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import InputBase from '@material-ui/core/InputBase';
+import { fade } from '@material-ui/core/styles/colorManipulator';
+import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
 
 // TODO: Modal Design Using Material UI
 
 const styles = (theme) => ({
   root: {
     width: "100%",
-    marginTop: theme.spacing(3),
-    overflowX: "auto"
-  },
-  table: {
     minWidth: 1080
+  },
+  paper: {
+    marginLeft: 18,
+    marginRight: 18
   },
   progress: {
     margin: theme.spacing(2)
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+    display: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'block',
+    },
+  },
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(1),
+      width: 'auto',
+    },
+  },
+  searchIcon: {
+    width: theme.spacing(7),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputRoot: {
+    color: 'inherit',
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 7),
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: 120,
+      '&:focus': {
+        width: 200,
+      },
+    },
+  },
+  tableHead: { //데이터 컬럼의 폰트 사이즈
+    fontSize: '1.0em'
+  },
+  menu: {
+    marginTop: 15,
+    marginBottom: 15,
+    display: 'flex',
+    justifyContent: 'center' //가운데 정렬
   }
-})
+});
 
 //main file. 실질적으로 웹사이트에 내용 출력을 담당함.
 
@@ -83,19 +147,51 @@ class App extends React.Component {
   }
 
   render() {
+    const cellList = ["No.", "Image", "名前", "生年月日", "性別", "職業", "削除ボタン"]
     return (
-      <div>
-        <Paper className={this.props.classes.root}>
+      <div className={this.props.classes.root}>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+                edge="start"
+                className={this.props.classes.menuButton}
+                color="inherit"
+                aria-label="open drawer"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography className={this.props.classes.title} variant="h6" noWrap>
+              Simple CRUD
+            </Typography>
+            <div className={this.props.classes.search}>
+              <div className={this.props.classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                  placeholder="Search…"
+                  classes={{
+                    root: this.props.classes.inputRoot,
+                    input: this.props.classes.inputInput,
+                  }}
+                  inputProps={{ 'aria-label': 'search' }}
+              />
+            </div>
+          </Toolbar>
+        </AppBar>
+
+        {/*Appbar와 테이블 사이에 가운데정렬된 추가 버튼 추가*/}
+        <div className={this.props.classes.menu}>
+          <CustomerAdd stateRefresh={this.stateRefresh} />
+        </div>
+
+        <Paper className={this.props.classes.paper}>
           <Table className={this.props.classes.table}>
             <TableHead>
               <TableRow>
-                <TableCell>No.</TableCell>
-                <TableCell>Image</TableCell>
-                <TableCell>名前</TableCell>
-                <TableCell>生年月日</TableCell>
-                <TableCell>性別</TableCell>
-                <TableCell>職業</TableCell>
-                <TableCell>削除ボタン</TableCell>
+                  {/*테이블 컬럼 헤더 */}
+                {cellList.map(c =>{
+                  return <TableCell className={this.props.classes.tableHead}>{c}</TableCell>
+                })}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -114,7 +210,7 @@ class App extends React.Component {
             </TableBody>
           </Table>
         </Paper>
-        <CustomerAdd stateRefresh={this.stateRefresh} />
+
     </div>
   );
   }

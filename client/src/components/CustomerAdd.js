@@ -1,5 +1,18 @@
 import React from 'react';
 import { post } from 'axios';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogTitle from  '@material-ui/core/DialogTitle';
+import DialogContent from  '@material-ui/core/DialogContent';
+import TextField from  '@material-ui/core/TextField';
+import Button from  '@material-ui/core/Button';
+import { withStyles } from "@material-ui/core/styles";
+
+const  styles = theme => ({
+    hidden: {
+        display: 'none'
+    }
+});
 
 class CustomerAdd extends React.Component {
 
@@ -11,7 +24,8 @@ class CustomerAdd extends React.Component {
       birthday: '',
       gender: '',
       job: '',
-      fileName: ''
+      fileName: '',
+      open: false
     }
   }
 
@@ -27,7 +41,8 @@ handleFormSubmit = (e) => {//submit버튼을 눌렀을 때, 해당 input으로 �
     birthday: '',
     gender: '',
     job: '',
-    fileName: ''
+    fileName: '',
+    open: false
   });
   // window.location.reload(); //reload windows
 
@@ -46,7 +61,7 @@ handleValueChange = (e) => {//submit버튼을 눌렀을 때, 해당 input으로 
   this.setState(nextState);
 }
 
-addCustomer = () => {
+addCustomer = () => { //state는 글로벌 변수와 비슷한 그런 개념.
   const url = 'api/customers';
   const formData = new FormData(); //이미지 데이터를 같이 전송하게 위해서 formData를 사용함.
   formData.append('image', this.state.file);
@@ -64,8 +79,65 @@ addCustomer = () => {
     //여기서 return값으로 response가 전달되어 돌아오게 됨.
 }
 
+handleClickOpen = () => { // 고객추가하기 버튼을 눌렀을 때  바인딩처리
+    this.setState({
+        open: true
+    });
+}
+
+handleClose  = () => { // 고객추가하기 모달을 닫았을 때 바인딩처리
+    this.setState({
+        file: null,
+        userName: '',
+        birthday: '',
+        gender: '',
+        job: '',
+        fileName: '',
+        open: false
+    });
+
+}
+
 render() { //실제 이미지가 렌더링되어 표시되는 부분
+    const { classes } = this.props; // 이미지를 적용하는 부분
     return (
+        <div>
+            <Button variant="contained" color="primary" onClick={this.handleClickOpen}>
+                Create Data
+            </Button>
+            <Dialog open={this.state.open} onClose={this.handleClose}>
+                <DialogTitle> Create Data </DialogTitle>
+                <DialogContent>
+                    <input className={classes.hidden} accept="image/*" id="raised-button-file" label="プロフィールイメージ" type="file" file={this.state.file} value={this.state.fileName} onChange={this.handleFileChange}></input>
+                    {/*classes.hidden : 위에서 정의한 안보이게하는 그것*/}
+                    {/*accept : 사용자가 정해진 값으로만 넣게끔. image파일만.*/}
+                    {/*id :*/}
+                    <label htmlFor="raised-button-file">
+                        <Button variant="contained" color="primary" component="span" name="file">
+                            {this.state.fileName === "" ? " イメージ選択" : this.state.fileName}
+                        </Button>
+                    </label>
+                    {/*htmlFor : input에서 정의한 id값. 버튼을 눌렀을 때 해당 html이 실행될 수 있도록? 하는 것. htmlFor*/}
+                    {/*name : 서버로 전달될 파라미터 이름*/}
+                    <br/>
+                    <TextField  label="お名前" type="text" name="userName" value={this.state.userName} onChange={this.handleValueChange}></TextField>
+                    <br/>
+                    <TextField label="生年月日" type="text" name="birthday" value={this.state.birthday} onChange={this.handleValueChange}></TextField>
+                    <br/>
+                    <TextField label="性別" type="text" name="gender" value={this.state.gender} onChange={this.handleValueChange}></TextField>
+                    <br/>
+                    <TextField label="職業"   type="text" name="job" value={this.state.job} onChange={this.handleValueChange}></TextField>
+
+                </DialogContent>
+                <DialogActions>
+                    <Button variant="contained" color="primary" onClick={this.handleFormSubmit}> ADD </Button>
+                    <Button variant="outlined" color="primary" onClick={this.handleClose}> CLOSE </Button>
+                </DialogActions>
+
+            </Dialog>
+            
+        </div>
+        /*
       <form onSubmit={this.handleFormSubmit}>
         <h1> 고객 추가 </h1>
         프로필 이미지 : <input type="file" name="file" file={this.state.file} value={this.state.fileName} onChange={this.handleFileChange}></input>
@@ -79,10 +151,12 @@ render() { //실제 이미지가 렌더링되어 표시되는 부분
          직업 : <input type="text" name="job" value={this.state.job} onChange={this.handleValueChange}></input>
        <button type="submit">추가하기</button>
       </form>
+      */
+        
     )
 }
 
 
 }
 
-export default CustomerAdd;
+export default withStyles(styles)(CustomerAdd);

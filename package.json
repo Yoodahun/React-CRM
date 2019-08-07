@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@material-ui/icons": "^4.2.1",
     "cors": "^2.8.5",
     "cowsay": "^1.4.0",
     "create-react-app": "^3.0.1",

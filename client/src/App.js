@@ -109,14 +109,16 @@ class App extends React.Component {
     super(props);
     this.state = {
       customers: '',
-      completed: 0
+      completed: 0,
+      searchKeyword:''
     }
   }
 
   stateRefresh = () => {
     this.setState({
       customers: '',
-      completed: 0
+      completed: 0,
+      searchKeyword: ''
     });
     this.callApi()
         .then(res => this.setState({customers: res}))//호출한 callApi의 Response를 customer에 셋팅해주는 것.
@@ -134,7 +136,7 @@ class App extends React.Component {
   }
 
   callApi = async () => { //비동기 처리작업.
-    const response = await fetch('/api/customers'); //정의된 주소에 접근하여
+    const response = await fetch('/api/customers'); //정의된 주소에 접근하여 get
     const body = await response.json(); //response를 json으로 받
     return body;
   }
@@ -146,7 +148,23 @@ class App extends React.Component {
     });
   }
 
+  handleValueChange = (e) => { // 어떠한 값이 바뀌었을 때 설정하는 것.
+    let nextState = {};
+    nextState[e.target.name] = e.target.value;
+    this.setState(nextState);
+  }
+
+
   render() {
+    const filteredComponents = (data) => { //파라미터를 변수로 받았을
+      data = data.filter((c) => { //data가 배열형태로 존재한다면,
+        return c.name.indexOf(this.state.searchKeyword) > -1; //각 원소의 이름값에 검색값이 포함되어 있는지? 해당 데이터만 남겨놓을 수 있도록.
+      });
+      return data.map((c) => { //남은 데이터들에서 반환함.
+        return <Customer stateRefresh={this.stateRefresh} key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job}/>
+
+      })
+    };
     const cellList = ["No.", "Image", "名前", "生年月日", "性別", "職業", "削除ボタン"]
     return (
       <div className={this.props.classes.root}>
@@ -161,7 +179,7 @@ class App extends React.Component {
               <MenuIcon />
             </IconButton>
             <Typography className={this.props.classes.title} variant="h6" noWrap>
-              Simple CRUD
+              Simple Board
             </Typography>
             <div className={this.props.classes.search}>
               <div className={this.props.classes.searchIcon}>
@@ -174,6 +192,9 @@ class App extends React.Component {
                     input: this.props.classes.inputInput,
                   }}
                   inputProps={{ 'aria-label': 'search' }}
+                  name="searchKeyword" //검색어의 이름
+                  value={this.state.searchKeyword}
+                  onChange={this.handleValueChange} //searchKeyword를 state에 적용하는
               />
             </div>
           </Toolbar>
@@ -198,9 +219,11 @@ class App extends React.Component {
               {  /* key값은 반드시 넣어주어야함.
                 App.js 에서 선언한 stateRefresh를 자식 컴포넌트에 전달하여 사용할 수 있도록 함.
                 */
-                this.state.customers ? this.state.customers.map(c => {
-                  return (<Customer stateRefresh={this.stateRefresh} key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job}/>)
-                }) :
+                this.state.customers ?
+                    filteredComponents(this.state.customers) :
+                    // this.state.customers.map(c => {
+                //   return (<Customer stateRefresh={this.stateRefresh} key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job}/>)
+                // }) :
                 <TableRow>
                   <TableCell colSpan="6" align="center">
                     <CircularProgress className={this.props.classes.progress} variant="determinate" value={this.state.completed}/>
@@ -214,6 +237,7 @@ class App extends React.Component {
     </div>
   );
   }
+
 }
 
 // export default App;

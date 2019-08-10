@@ -15,7 +15,9 @@ app.use(bodyParser.urlencoded({ extended: true}));
 
 // Anything that doesn't match the above, send back index.html
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname + '/client/build/index.html'));
+    // res.sendFile(path.join(__dirname + '/client/build/index.html'));
+    if(req.path.split('/')[1] === 'static') return next();
+    res.sendFile(path.resolve(__dirname, '/client/build/index.html'));
 });
 
 const mysql = require('mysql');

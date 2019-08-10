@@ -12,11 +12,11 @@ import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
+// import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import MenuIcon from '@material-ui/icons/Menu';
+// import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 
 // TODO: Modal Design Using Material UI
@@ -86,8 +86,9 @@ const styles = (theme) => ({
   menu: {
     marginTop: 15,
     marginBottom: 15,
+    marginLeft: 20,
     display: 'flex',
-    justifyContent: 'center' //가운데 정렬
+    justifyContent: 'left' //가운데 정렬
   }
 });
 
@@ -110,7 +111,7 @@ class App extends React.Component {
     this.state = {
       customers: '',
       completed: 0,
-      searchKeyword:''
+      searchKeyword:'' //검색어를 초기화해줘야함.
     }
   }
 
@@ -118,7 +119,7 @@ class App extends React.Component {
     this.setState({
       customers: '',
       completed: 0,
-      searchKeyword: ''
+      searchKeyword: '' //검색어를 초기화해주고 전체를 받아옴.
     });
     this.callApi()
         .then(res => this.setState({customers: res}))//호출한 callApi의 Response를 customer에 셋팅해주는 것.
@@ -156,6 +157,7 @@ class App extends React.Component {
 
 
   render() {
+
     const filteredComponents = (data) => { //파라미터를 변수로 받았을
       data = data.filter((c) => { //data가 배열형태로 존재한다면,
         return c.name.indexOf(this.state.searchKeyword) > -1; //각 원소의 이름값에 검색값이 포함되어 있는지? 해당 데이터만 남겨놓을 수 있도록.
@@ -165,22 +167,29 @@ class App extends React.Component {
 
       })
     };
+
+
     const cellList = ["No.", "Image", "名前", "生年月日", "性別", "職業", "削除ボタン"]
     return (
       <div className={this.props.classes.root}>
         <AppBar position="static">
+{/*메뉴바 아이콘*/}
           <Toolbar>
-            <IconButton
-                edge="start"
-                className={this.props.classes.menuButton}
-                color="inherit"
-                aria-label="open drawer"
-            >
-              <MenuIcon />
-            </IconButton>
+            {/*<IconButton*/}
+            {/*    edge="start"*/}
+            {/*    className={this.props.classes.menuButton}*/}
+            {/*    color="inherit"*/}
+            {/*    aria-label="open drawer"*/}
+            {/*>*/}
+            {/*  <MenuIcon />*/}
+            {/*</IconButton>*/}
+{/*메뉴바 아이콘*/}
+{/*Title*/}
             <Typography className={this.props.classes.title} variant="h6" noWrap>
               Simple Board
             </Typography>
+{/*Title*/}
+{/*Search Tap*/}
             <div className={this.props.classes.search}>
               <div className={this.props.classes.searchIcon}>
                 <SearchIcon />
@@ -197,13 +206,15 @@ class App extends React.Component {
                   onChange={this.handleValueChange} //searchKeyword를 state에 적용하는
               />
             </div>
+{/*Search Tap*/}
           </Toolbar>
         </AppBar>
 
-        {/*Appbar와 테이블 사이에 가운데정렬된 추가 버튼 추가*/}
+{/*Appbar와 테이블 사이에 가운데정렬된 추가 버튼 추가*/}
         <div className={this.props.classes.menu}>
           <CustomerAdd stateRefresh={this.stateRefresh} />
         </div>
+{/*Appbar와 테이블 사이에 가운데정렬된 추가 버튼 추가*/}
 
         <Paper className={this.props.classes.paper}>
           <Table className={this.props.classes.table}>

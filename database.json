@@ -1,7 +1,7 @@
 {
   "HOST":"crm-using-react-and-node.cgtsqla2jzge.ap-northeast-2.rds.amazonaws.com",
   "USER":"dahun",
-  "PASSWORD":"password",
+  "PASSWORD":"",
   "PORT":"3306",
   "DATABASE_NAME":"management"
 }

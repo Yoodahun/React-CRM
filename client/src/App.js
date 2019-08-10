@@ -12,11 +12,11 @@ import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
+// import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import MenuIcon from '@material-ui/icons/Menu';
+// import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 
 // TODO: Modal Design Using Material UI
@@ -173,7 +173,7 @@ class App extends React.Component {
     return (
       <div className={this.props.classes.root}>
         <AppBar position="static">
-          /* 메뉴바 아이콘*/
+{/*메뉴바 아이콘*/}
           <Toolbar>
             {/*<IconButton*/}
             {/*    edge="start"*/}
@@ -183,13 +183,13 @@ class App extends React.Component {
             {/*>*/}
             {/*  <MenuIcon />*/}
             {/*</IconButton>*/}
-            /* 메뉴바 아이콘*/
-/* Title */
+{/*메뉴바 아이콘*/}
+{/*Title*/}
             <Typography className={this.props.classes.title} variant="h6" noWrap>
               Simple Board
             </Typography>
-/* Title */
-/* Search Tap */
+{/*Title*/}
+{/*Search Tap*/}
             <div className={this.props.classes.search}>
               <div className={this.props.classes.searchIcon}>
                 <SearchIcon />
@@ -206,7 +206,7 @@ class App extends React.Component {
                   onChange={this.handleValueChange} //searchKeyword를 state에 적용하는
               />
             </div>
-/* Search Tap */
+{/*Search Tap*/}
           </Toolbar>
         </AppBar>
 

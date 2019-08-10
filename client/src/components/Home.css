@@ -1,0 +1,49 @@
+/*.body {*/
+/*    background: linear-gradient(to right bottom, #430089, #82ffa1) ;*/
+/*}*/
+.menu {
+    font-size: 42px;
+    text-decoration: none;
+    color: #FFF;
+}
+a:hover {
+    color: #FFF;
+}
+
+html, body {
+    height: 100%;
+}
+
+.wrapper {
+    position:absolute;
+    top:50%;
+    left:50%;
+    background-color: #3f51b5;
+    transform:translate(-50%, -50%);
+    /*z-index: 1;*/
+    /*position: absolute;*/
+    /*display: block;*/
+    /*top: 100%;*/
+    /*left: 100%;*/
+    width: 100%;
+    text-align: center;
+    /*transform: translate(-50%,-50%);*/
+    height: 100%;
+    /*text-align: center;*/
+}
+.wrapper:before {
+    content: "";
+    /*display: inline-block;*/
+    width: 1px; height: 100%;
+    margin-right: 0; vertical-align: middle;
+}
+.box {
+    /*width: 50%;*/
+    margin: 0 auto;
+    width: 100%;
+    display: inline-block;
+    vertical-align: middle;
+    top: 70%;
+    -ms-transform: translateY(+170%);
+    transform: translateY(+170%);
+}

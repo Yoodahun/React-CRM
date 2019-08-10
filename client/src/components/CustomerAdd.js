@@ -5,7 +5,13 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from  '@material-ui/core/DialogTitle';
 import DialogContent from  '@material-ui/core/DialogContent';
 import TextField from  '@material-ui/core/TextField';
+import Input from  '@material-ui/core/Input';
 import Button from  '@material-ui/core/Button';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 import { withStyles } from "@material-ui/core/styles";
 
 const  styles = theme => ({
@@ -59,6 +65,17 @@ handleValueChange = (e) => {//submit버튼을 눌렀을 때, 해당 input으로 
   let nextState = {};
   nextState[e.target.name] = e.target.value;
   this.setState(nextState);
+}
+
+handleValueChangeBirthday = (e) => {
+    let re = /^[0-9\b]+$/;
+
+    // if value is not blank, then test the regex
+    if (e.target.value === '' || re.test(e.target.value)) {
+        let nextState = {};
+        nextState[e.target.name] = e.target.value;
+        this.setState(nextState);
+    };
 }
 
 addCustomer = () => { //state는 글로벌 변수와 비슷한 그런 개념.
@@ -122,10 +139,30 @@ render() { //실제 이미지가 렌더링되어 표시되는 부분
                     <br/>
                     <TextField  label="お名前" type="text" name="userName" value={this.state.userName} onChange={this.handleValueChange}></TextField>
                     <br/>
-                    <TextField label="生年月日" type="text" name="birthday" value={this.state.birthday} onChange={this.handleValueChange}></TextField>
+                    <TextField label="生年月日 (ex. 950505)" type="text"  inputProps={{ maxLength: "6" }} name="birthday" value={this.state.birthday} onChange={this.handleValueChangeBirthday}></TextField>
                     <br/>
-                    <TextField label="性別" type="text" name="gender" value={this.state.gender} onChange={this.handleValueChange}></TextField>
                     <br/>
+                    <FormControl component="fieldset">
+                        <FormLabel component="legend">性別</FormLabel>
+                        <RadioGroup name="gender" value={this.state.gender} onChange={this.handleValueChange} row>
+                            <FormControlLabel
+                                value="男"
+                                control={<Radio color="primary" />}
+                                label="男性"
+                                labelPlacement="start"
+                            />
+                            <FormControlLabel
+                                value="女"
+                                control={<Radio color="primary" />}
+                                label="女性"
+                                labelPlacement="start"
+                            />
+                        </RadioGroup>
+                    </FormControl>
+
+                    <br/>
+                    {/*<TextField label="性別" type="text" name="gender" value={this.state.gender} onChange={this.handleValueChange}></TextField>*/}
+                    {/*<br/>*/}
                     <TextField label="職業"   type="text" name="job" value={this.state.job} onChange={this.handleValueChange}></TextField>
 
                 </DialogContent>
